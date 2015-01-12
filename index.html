@@ -2,12 +2,23 @@
 
 <html>
   <head>
+    <title>JavaScript Analysis Demo</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript" src="packages/esprima.js"></script>
     <script type="text/javascript" src="packages/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="api.js"></script>
+    <script type="text/javascript" src="test.js"></script>
   </head>
   <body>
-    <textarea rows="10" cols="80"></textarea>
+    <h1>JavaScript Analysis Demo</h1>
+    <p>Write some Javascript code which:</p>
+    <ul>
+      <li>Contains a <b>for</b> loop</li>
+      <li>Contains a variable declaration INSIDE the <b>for</b> loop</li>
+      <li>Does not contain a <b>while</b> loop</li>
+      <li>Does not contain an <b>if</b> statement</li>
+    </ul>
+    <textarea rows="30" cols="80"></textarea>
   </body>
 </html>
