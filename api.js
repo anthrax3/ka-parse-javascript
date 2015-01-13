@@ -1,98 +1,9 @@
 /**
- * The API presents some helper functions for test.js to use:
- * assertHas
- * assertHasNot
- * assertNestedIn
+ * The API presents some helper functions for test.js to use.
  */
 
 
 ////////////////////// PUBLIC FUNCTIONS /////////////////////////////
-
-function has(text, feature) {
-    /**
-     * text :: JavaScript string
-     * feature :: string
-     * return :: { passes: boolean,
-     *             message: string }
-     */
-    try {
-	var tree = parseText(text);
-    } catch(err) {
-	return {
-	    passes: false,
-	    message: "Syntax error."
-	};
-    }
-
-    success = subtreeHas(tree, feature);
-
-    if (success) {
-	return {
-	    passes: success,
-	    message: "Good."
-	};
-    } else {
-	return {
-	    passes: success,
-	    message: "Does not contain " + feature + "."
-	};
-    }
-}
-
-function hasNot(text, feature) {
-    /**
-     * text :: JavaScript string
-     * feature :: string
-     * return :: { passes: boolean,
-     *             message: string }
-     */
-    try {
-	var tree = parseText(text);
-    } catch(err) {
-	return {
-	    passes: false,
-	    message: "Syntax error."
-	};
-    }
-
-    success = !subtreeHas(tree, feature);
-
-    if (success) {
-	return {
-	    passes: success,
-	    message: "Good."
-	};
-    } else {
-	return {
-	    passes: success,
-	    message: "Contain " + feature + "."
-	};
-    }
-}
-
-function nestedIn(text, innerFeature, outerFeature) {
-    /**
-     * text :: JavaScript string
-     * feature :: string
-     * return :: { passes: boolean,
-     *             message: string }
-     */
-    try {
-	var tree = parseText(text);
-    } catch(err) {
-	return {
-	    passes: false,
-	    message: "Syntax error."
-	};
-    }
-    // TODO
-    return {
-	passes: true,
-	message: ""
-    };
-}
-
-////////////////////// PRIVATE FUNCTIONS /////////////////////////////
 
 function parseText(text) {
     /**
@@ -103,7 +14,30 @@ function parseText(text) {
     return esprima.parse(text);
 }
 
-function subtreeHas(tree, feature) {
+function hasNode(tree, feature) {
+    /**
+     * tree :: JavaScript AST, as per the Mozilla Parser API
+     * feature :: string
+     * return :: boolean
+     */
+    return subtreeHasNode(tree, feature);
+}
+
+function nestedIn(tree, innerFeature, outerFeature) {
+    /**
+     * tree :: JavaScript AST, as per the Mozilla Parser API
+     * feature :: string
+     * return :: { passes: boolean,
+     *             message: string }
+     */
+    // TODO
+    return true;
+}
+
+////////////////////// PRIVATE FUNCTIONS /////////////////////////////
+
+
+function subtreeHasNode(tree, feature) {
     /**
      * tree :: JavaScript AST, as per Mozilla Parser API
      * return :: true if tree contains something of type
@@ -111,11 +45,24 @@ function subtreeHas(tree, feature) {
     if (tree.type == feature) {
 	return true;
     }
-    for (subtree in tree.body) {
-    // TODO: not all node types have a body
-	if (subtreeHas(subtree, feature)) {
-	    return true;
-	}
+    
+    function checkSubtrees(subtrees) {
+	//$.each should work in IE8, unlike foreach
+	$.each(subtrees, function(index, subtree) {
+	    if (subtreeHasNode(subtree, feature)) {
+		return true;
+	    }
+	});
     }
+
+    if (tree.type == 'Program') {
+	if (checkSubtrees(tree.body)) {return true;}
+    }
+    if (tree.type == 'Function') {
+	if (checkSubtrees(tree.body)) {return true;}
+	//TODO this check
+    }
+    //TODO more checks
+	
     return false;
 }
