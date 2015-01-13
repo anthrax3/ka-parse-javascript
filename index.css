@@ -1,0 +1,10 @@
+.success {
+    color: Navy;
+}
+.failure {
+    color: FireBrick;
+}
+.codebox {
+    height: 400px;
+    width: 500px;
+}
