@@ -5,9 +5,6 @@
  * assertNestedIn
  */
 
-var cached_text = '';
-var cached_tree = null;
-
 
 ////////////////////// PUBLIC FUNCTIONS /////////////////////////////
 
@@ -99,25 +96,11 @@ function nestedIn(text, innerFeature, outerFeature) {
 
 function parseText(text) {
     /**
-     * Use Esprima to parse the text. If the text has been parsed
-     * recently, use the cached parse result instead of calling
-     * Esprima again.
+     * Use Esprima to parse the text.
      * text :: JavaScript string
      * tree :: JavaScript AST, as per the Mozilla Parser API
      */
-
-
-    if (cached_tree === null || cached_text != text) {
-	var tree = esprima.parse(text);
-	cached_tree = tree;
-	cached_text = text; //TODO: Possible concurency issue if globals are updated concurrently -- need to lock tree, lock text
-	console.log("Tree recomputed"); //TODO delete this
-	return tree;
-    }
-    else {
-	console.log("Tree cached"); //TODO delete this
-	return cached_tree;
-    }
+    return esprima.parse(text);
 }
 
 function subtreeHas(tree, feature) {
