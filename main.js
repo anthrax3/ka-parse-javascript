@@ -35,7 +35,6 @@ $(document).ready(function() {
          */
         var user_text = editor.getValue();
         var result = apply_tests(user_text);
-        console.log(result.message);
         update_message(result.passes, result.message);
     }
 
