@@ -1,6 +1,11 @@
+/**
+ * Set up the code editor. set up the tests to run whenever the code
+ * editor is updated. Update the message box with the test results.
+ */
+
 $(document).ready(function() {
 
-    // For the text editor
+    // For the text editor.
     // This snippet from http://ace.c9.io/#nav=embedding
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
@@ -22,17 +27,25 @@ $(document).ready(function() {
 	}
     }
 
-    // This check from http://stackoverflow.com/questions/2388629/
-    $('#editor').on('input propertychange paste', function() {
+    function runTests() {
 	/**
 	 * Keep the error message up-to-date based on the code the
 	 * user has typed in so far, by running the tests and fetching
 	 * the result.
 	 */
 	var user_text = editor.getValue();
-	result = apply_tests(user_text);
+	var result = apply_tests(user_text);
+	console.log(result.message);
 	update_message(result.passes, result.message);
-    });
+    };
+
+    // For small user inputs, this doesn't lag. If larger user inputs
+    // are expected, consider making this change to use a setInterval
+    // only when the user input is too large.
+    editor.getSession().on('change', runTests);
+    
+    runTests();
+
 });
 
 

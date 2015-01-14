@@ -15,34 +15,34 @@ function apply_tests(text) {
 	return {
 	    passes: false,
 	    message: 'Syntax error.'
-	}
+	};
     }
-
     if (! hasNode(tree, 'ForStatement')) {
 	return {
 	    passes: false,
 	    message: 'You need to add a for statement.'
-	}
+	};
     }
-
     if (! nestedIn(tree, 'VariableDeclaration', 'ForStatement')) {
 	return {
 	    passes: false,
 	    message: 'Your solution needs a variable declaration inside the for statement.'
-	}
+	};
     }
-
     if (hasNode(tree, 'WhileStatement')) {
 	return {
 	    passes: false,
 	    message: 'Your solution may not use a while loop.'
-	}
+	};
     }
-
     if (hasNode(tree, 'IfStatement')) {
 	return {
 	    passes: false,
 	    message: 'Your solution may not contain an if statement.'
-	}
+	};
     }
+    return {
+	passes: true,
+	message: 'All tests passed.'
+    };
 }
