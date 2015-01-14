@@ -13,31 +13,31 @@ $(document).ready(function() {
     editor.getSession().setUseWorker(false);
 
     function update_message(success, message) {
-	/**
-	 * success :: boolean
-	 * message :: string
-	 * return :: Nothing; as a side effect, changes error message
-	 */
-	if (success) {
-	    $('.success').html(message);
-	    $('.failure').html("");
-	} else {
-	    $('.failure').html(message);
-	    $('.success').html("");
-	}
+        /**
+         * success :: boolean
+         * message :: string
+         * return :: Nothing; as a side effect, changes error message
+         */
+        if (success) {
+            $('.success').html(message);
+            $('.failure').html("");
+        } else {
+            $('.failure').html(message);
+            $('.success').html("");
+        }
     }
 
     function runTests() {
-	/**
-	 * Keep the error message up-to-date based on the code the
-	 * user has typed in so far, by running the tests and fetching
-	 * the result.
-	 */
-	var user_text = editor.getValue();
-	var result = apply_tests(user_text);
-	console.log(result.message);
-	update_message(result.passes, result.message);
-    };
+        /**
+         * Keep the error message up-to-date based on the code the
+         * user has typed in so far, by running the tests and fetching
+         * the result.
+         */
+        var user_text = editor.getValue();
+        var result = apply_tests(user_text);
+        console.log(result.message);
+        update_message(result.passes, result.message);
+    }
 
     // For small user inputs, this doesn't lag. If larger user inputs
     // are expected, consider making this change to use a setInterval

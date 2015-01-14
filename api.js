@@ -32,15 +32,15 @@ function nestedIn(tree, innerFeature, outerFeature) {
      */
     var outerFeatureResults = findSubtreeWithFeature(tree, outerFeature);
     if (outerFeatureResults.exists) {
-	var subtree = outerFeatureResults.subtree;
-	var innerFeatureResults = findSubtreeWithFeature(subtree, innerFeature);
-	if (innerFeatureResults.exists) {
-	    return true;
-	} else {
-	    return false;
-	}
+        var subtree = outerFeatureResults.subtree;
+        var innerFeatureResults = findSubtreeWithFeature(subtree, innerFeature);
+        if (innerFeatureResults.exists) {
+            return true;
+        } else {
+            return false;
+        }
     } else {
-	return false;
+        return false;
     }
     
 }
@@ -53,31 +53,31 @@ function findSubtreeWithFeature(tree, feature) {
      * tree :: root Node of a JavaScript AST, as per Mozilla Parser API, *or* null
      * return :: { exists: boolean --
                            true if tree contains feature as a Statement within it
-	           subtree: root Node of a JavaScript AST subtree }
+                   subtree: root Node of a JavaScript AST subtree }
      */
     if (tree === null || tree === undefined || !tree.type) {
         return {
-	    exists: false,
-	    subtree: null
-	};
+            exists: false,
+            subtree: null
+        };
     }
     if (tree.type == feature) {
         return {
-	    exists: true,
-	    subtree: tree
-	};
+            exists: true,
+            subtree: tree
+        };
     }
     function checkSubtrees(subtrees) {
-	var output = {
-	    exists: false,
-	    subtree: null
-	};
+        var output = {
+            exists: false,
+            subtree: null
+        };
         //$.each should work in IE8, unlike foreach
         $.each(subtrees, function(index, subtree) {
-	    var subtreeResults = findSubtreeWithFeature(subtree, feature);
-	    if (subtreeResults.exists) {
-		output = subtreeResults;
-	    }
+            var subtreeResults = findSubtreeWithFeature(subtree, feature);
+            if (subtreeResults.exists) {
+                output = subtreeResults;
+            }
         });
         return output;
     }
@@ -143,53 +143,53 @@ function children(tree) {
             return [tree.body].concat(tree.defaults).concat(tree.params);
         case esprima.Syntax.VariableDeclaration:
             return tree.declarations;
-	case esprima.Syntax.VariableDeclarator:
+        case esprima.Syntax.VariableDeclarator:
             return [tree.id, tree.init];
-	case esprima.Syntax.ThisExpression:
-	    return [];
-	case esprima.Syntax.ArrayExpression:
-	    return tree.elements;
-	case esprima.Syntax.ObjectExpression:
-	    return tree.properties;
+        case esprima.Syntax.ThisExpression:
+            return [];
+        case esprima.Syntax.ArrayExpression:
+            return tree.elements;
+        case esprima.Syntax.ObjectExpression:
+            return tree.properties;
         case esprima.Syntax.FunctionExpression:
             return [tree.body].concat(tree.defaults).concat(tree.params);
-	case esprima.Syntax.ArrowExpression:
-	    return tree.params.concat(tree.defaults).concat([tree.body]);
-	case esprima.Syntax.SequenceExpression:
-	    return tree.expressions;
-	case esprima.Syntax.UnaryExpression:
-	    return tree.argument;
-	case esprima.Syntax.BinaryExpression:
-	    return [tree.left, tree.right];
-	case esprima.Syntax.AssignmentExpression:
-	    return [tree.left, tree.right];
-	case esprima.Syntax.UpdateExpression:
-	    return [tree.argument];
-	case esprima.Syntax.LogicalExpression:
-	    return [tree.left, tree.right];
-	case esprima.Syntax.ConditionalExpression:
-	    return [tree.test, tree.alternate, tree.consequent];
-	case esprima.Syntax.NewExpression:
-	    return [tree.callee].concat(tree.arguments);
-	case esprima.Syntax.CallExpression:
-	    return [tree.callee].concat(tree.arguments);
-	case esprima.Syntax.MemberExpression:
-	    return [tree.object, tree.property];
-	case esprima.Syntax.ObjectPattern:
-	    return extractExpressions(tree.properties);
-	case esprima.Syntax.ArrayPattern:
-	    return elements;
-	case esprima.Syntax.SwitchCase:
-	    return [tree.test].concat(tree.consequent);
-	case esprima.Syntax.CatchClause:
-	    return [tree.param, tree.guard, tree.body];
-	case esprima.Syntax.Identifier:
-	    return [];
-	case esprima.Syntax.Literal:
-	    return [];
-	case esprima.Syntax.Property:
-	    return [];
-	default:
+        case esprima.Syntax.ArrowExpression:
+            return tree.params.concat(tree.defaults).concat([tree.body]);
+        case esprima.Syntax.SequenceExpression:
+            return tree.expressions;
+        case esprima.Syntax.UnaryExpression:
+            return tree.argument;
+        case esprima.Syntax.BinaryExpression:
+            return [tree.left, tree.right];
+        case esprima.Syntax.AssignmentExpression:
+            return [tree.left, tree.right];
+        case esprima.Syntax.UpdateExpression:
+            return [tree.argument];
+        case esprima.Syntax.LogicalExpression:
+            return [tree.left, tree.right];
+        case esprima.Syntax.ConditionalExpression:
+            return [tree.test, tree.alternate, tree.consequent];
+        case esprima.Syntax.NewExpression:
+            return [tree.callee].concat(tree.arguments);
+        case esprima.Syntax.CallExpression:
+            return [tree.callee].concat(tree.arguments);
+        case esprima.Syntax.MemberExpression:
+            return [tree.object, tree.property];
+        case esprima.Syntax.ObjectPattern:
+            return extractExpressions(tree.properties);
+        case esprima.Syntax.ArrayPattern:
+            return elements;
+        case esprima.Syntax.SwitchCase:
+            return [tree.test].concat(tree.consequent);
+        case esprima.Syntax.CatchClause:
+            return [tree.param, tree.guard, tree.body];
+        case esprima.Syntax.Identifier:
+            return [];
+        case esprima.Syntax.Literal:
+            return [];
+        case esprima.Syntax.Property:
+            return [];
+        default:
             console.log("Warning: case not found -- "+tree.type);
             return [];
     }
@@ -203,7 +203,7 @@ function extractExpressions(props) {
      */
     output = [];
     $.each(props, function(index, prop) {
-	output.concat([prop.key, prop.value]);
+        output.concat([prop.key, prop.value]);
     });
     return output;
 }
